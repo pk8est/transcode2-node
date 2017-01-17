@@ -1,0 +1,33 @@
+{
+  "name": "transcode",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js -p 80",
+    "dev": "node index.js -p 80 --env dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "async": "^2.1.4",
+    "comma-separated-values": "^3.6.4",
+    "csv-parser": "^1.11.0",
+    "line-reader": "^0.4.0",
+    "log4js": "^1.0.1",
+    "m3u8": "0.0.7",
+    "minimist": "^1.2.0",
+    "moment": "^2.17.0",
+    "node-fetch": "^1.6.3",
+    "pump": "^1.0.1",
+    "raw-body": "^2.1.7",
+    "respawn": "^2.4.1",
+    "videojs-contrib-hls.js": "^2.0.1"
+  },
+  "devDependencies": {
+    "jquery": "^3.1.1",
+    "video.js": "^5.14.1",
+    "videojs-contrib-hls": "^4.0.3"
+  }
+}

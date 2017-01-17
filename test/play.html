@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <title>Video.js | HTML5 Video Player</title>
+    <link href="../node_modules/video.js/dist/video-js.css" rel="stylesheet">
+    <link href="./videojs-resolution-switcher.css" rel="stylesheet">
+    <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../node_modules/video.js/dist/ie8/videojs-ie8.min.js"></script>
+    <script src="../node_modules/video.js/dist/video.js"></script>
+    <!--
+    <script src="../node_modules/videojs-contrib-hls/dist/videojs-contrib-hls.min.js"></script>
+    -->
+    <script src="../node_modules/videojs-contrib-hls.js/dist/videojs-contrib-hlsjs.js"></script>
+    <!--<script src="./videojs5.hlsjs.js"></script>-->
+    <script src="./videojs-resolution-switcher.js"></script>
+    <!--<link href="http://vjs.zencdn.net/5.0.2/video-js.css" rel="stylesheet">
+    <script src="http://vjs.zencdn.net/ie8/1.1.0/videojs-ie8.min.js"></script>
+    <script src="http://vjs.zencdn.net/5.0.2/video.js"></script>-->
+<style type="text/css">
+    ul{list-style: none;margin-left: 0;padding-left: 0}
+    .input{width: 600px;}
+</style>
+</head>
+<h3>HLS播放器</h3>
+URL: <input type="text" id="url" class="input"> 
+<button onclick="updatePlay(false)">播放</button>
+ <button onclick="updatePlay(true)">flash播放</button>
+<br/>
+<br/>
+<body>
+<div id="video"></div>
+<div id="history">
+    <ul></ul>
+</div>
+<!-- 
+<video id="example-video" width=600 height=300 class="video-js vjs-default-skin" controls>
+    <source src="http://transcode-node.v.huya.com/hls/1/1612/403-1482973294151-hls/vod-360p.m3u8" type="application/x-mpegURL">
+</video> -->
+<script>
+    //var player = videojs('example-video');
+    //player.play();
+
+    function updatePlay(flash){ 
+        var url = $("#url").val()
+        if(!url || url.indexOf("http") != 0){
+            return alert("请输入url地址!");
+        }
+        var m3u8 = url.indexOf(".m3u8")!=-1 ? true : false;
+        play(url, m3u8, flash)
+        $("#history ul").append("<li>"+url+"</li>")
+    }
+
+    function play(url, m3u8, flash){
+        if(m3u8){
+            var html = '<video id="video_item" class="video-js vjs-big-play-centered vjs-skin-colors-blue"><source type="application/x-mpegURL" controls src="'+url+'"></source>您的浏览器不支持 video 标签</video>';
+        }else{
+            var html = '<video id="video_item" class="video-js vjs-big-play-centered vjs-skin-colors-blue"><source type="video/mp4" controls src="'+url+'"></source>您的浏览器不支持 video 标签</video>';
+        }
+        $("#video").html(html)
+        if(window.player){
+            window.player.dispose();
+        }
+        var options = {hls: {withCredentials: true}};
+        var player = videojs('video_item', {
+            controls: true,
+            preload: "meta", 
+            width: 960,
+            height: 544,
+            techOrder: flash ? ["flash"] : ["html5", "flash"],
+            preload: "auto",
+            autoplay: true,
+            //flash: options, 
+            //html5: options,
+            controlBar: {
+                remainingTimeDisplay: false
+            },
+            plugins: {
+                videoJsResolutionSwitcher: {
+                    default: "360"
+                }
+            }
+        }, function(){
+            player.on('resolutionchange', function(){
+              console.log('Source changed to %s', player.src());
+              console.log(player.currentResolution());
+              var setRes = player.currentResolution();
+            })
+            /*player.on("loadedmetadata", function(){
+                player.currentTime(40);
+            })*/
+            window.player = player;
+        });
+    }
+</script>
+
+</body>
+
+</html>
