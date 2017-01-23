@@ -4,7 +4,9 @@ var envConfig = {}
 config.DEFAULT_PORT = 9083;
 config.LOGDIR = "./log";
 config.REMOTE_TS_PATH = 'http://v-livegrab.dwstatic.com/';
-config.M3U8_PATH = './m3u8';
+config.M3U8_PATH = '/data/realtime-transcode';
+config.TS_PATH = '/data/realtime-transcode';
+config.TS_TEMP_PATH = '/data/realtime-transcode';
 config.REMOTE_M3U8_PATH = 'http://v-livegrab.dwstatic.com/';
 
 config.ENCODE = {
@@ -20,9 +22,10 @@ config.ENCODE = {
                 '-b:v': "350k",
                 '-b:a': "32k",
                 '-ar': "44100",
-                '-threads': "0",
+                '-threads': "1",
                 '-vf': "scale=-2:360",
                 '-profile:v': 'baseline',   //baseline
+                '-level': '3.0',   
             },
             'extraParams': [
             ],
@@ -37,9 +40,10 @@ config.ENCODE = {
                 '-b:v': "550k",
                 '-b:a': "64k",
                 '-ar': "44100",
-                '-threads': "0",
+                '-threads': "1",
                 '-vf': "scale=-2:480",
                 '-profile:v': 'high',   //baseline
+                '-level': '4.1',   
             },
             'extraParams': [
             ],
@@ -51,16 +55,33 @@ config.ENCODE = {
                 '-f': "mpegts",
                 '-vcodec': "libx264",
                 '-acodec': "copy",
-                '-b:v': "800k",
+                '-b:v': "1200k",
                 '-b:a': "64k",
                 '-ar': "44100",
-                '-threads': "0",
+                '-threads': "2",
                 '-vf': "scale=-2:720",
                 '-profile:v': 'high',   //baseline
+                '-level': '4.1',   
             },
             'extraParams': [
-                "-preset",
-                "veryfast",
+            ],
+        },
+        'test_720p': {
+            "resolution": "1280x720",
+            'bandwidth': "9600000",
+            'encodeParams':{
+                '-f': "mpegts",
+                '-vcodec': "libx264",
+                '-acodec': "copy",
+                '-b:v': "1200k",
+                '-b:a': "64k",
+                '-ar': "44100",
+                '-threads': "1",
+                '-vf': "scale=-2:720",
+                '-profile:v': 'high',   //baseline
+                '-level': '4.1',   
+            },
+            'extraParams': [
             ],
         },
         'yuanhua': {
@@ -79,6 +100,7 @@ config.ENCODE = {
                 '-threads': "1",
                 '-vf': "scale=-2:1080",
                 '-profile:v': 'high',   //baseline
+                '-level': '4.1',   
             },
             'extraParams': [
             ],

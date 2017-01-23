@@ -22,6 +22,7 @@
     "node-fetch": "^1.6.3",
     "pump": "^1.0.1",
     "raw-body": "^2.1.7",
+    "request": "^2.79.0",
     "respawn": "^2.4.1",
     "videojs-contrib-hls.js": "^2.0.1"
   },

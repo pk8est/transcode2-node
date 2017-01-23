@@ -15,9 +15,18 @@ const app = require("./lib/app")
 const util = require('./lib/util');
 
 util.mkdirsSync(config.M3U8_PATH)
+util.mkdirsSync(config.TS_PATH)
 app.run(argv.port, function(server){
     var ip = server.address().address;
     if(ip == "::") ip = "localhost";
     util.logger('cdn server running on port ' + server.address().port)
     util.logger('http://' + ip + ':' + server.address().port)
+})
+
+process.on('uncaughtException', err => {
+    try {
+        util.error(err)
+    } catch (e) {
+
+    }
 })
